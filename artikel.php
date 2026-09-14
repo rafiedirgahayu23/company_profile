@@ -27,7 +27,7 @@
                                 Era Digital Saat Ini</a></h5>
                         <p class="text-muted small mb-4 flex-grow-1">Memahami ancaman siber terbaru dan bagaimana
                             perusahaan dapat melindungi data sensitif mereka dari serangan peretas.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
+                        <a href="artikel-detail.php" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
                     </div>
                 </div>
             </div>
