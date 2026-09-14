@@ -27,7 +27,7 @@
                                 Era Digital Saat Ini</a></h5>
                         <p class="text-muted small mb-4 flex-grow-1">Memahami ancaman siber terbaru dan bagaimana
                             perusahaan dapat melindungi data sensitif mereka dari serangan peretas.</p>
-                        <a href="artikel-detail.php" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
+                        <a href="detail-artikel.php?id=1" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                 Meningkatkan Konversi</a></h5>
                         <p class="text-muted small mb-4 flex-grow-1">Kecepatan loading website adalah kunci. Pelajari
                             teknik optimasi yang terbukti berhasil meningkatkan interaksi pengguna.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
+                        <a href="detail-artikel.php?id=2" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                                 Computing bagi Bisnis UMKM</a></h5>
                         <p class="text-muted small mb-4 flex-grow-1">Bagaimana teknologi cloud dapat menghemat biaya
                             infrastruktur fisik dan meningkatkan efisiensi operasional.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
+                        <a href="detail-artikel.php?id=3" class="btn btn-outline-primary mt-auto">Baca Selengkapnya</a>
                     </div>
                 </div>
             </div>

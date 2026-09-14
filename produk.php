@@ -26,7 +26,7 @@
                         <h4 class="fw-bold mb-3">Custom Web Application</h4>
                         <p class="text-muted small mb-4 flex-grow-1">Pengembangan aplikasi berbasis web yang disesuaikan
                             dengan alur bisnis internal perusahaan, lengkap dengan sistem manajemen data yang aman.</p>
-                        <a href="#" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
+                        <a href="detail-layanan.php?id=1" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         <h4 class="fw-bold mb-3">Enterprise Networking</h4>
                         <p class="text-muted small mb-4 flex-grow-1">Perancangan dan implementasi topologi jaringan
                             skala enterprise, instalasi server, dan sistem keamanan firewall.</p>
-                        <a href="#" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
+                        <a href="detail-layanan.php?id=2" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                         <h4 class="fw-bold mb-3">IT Audit & Consulting</h4>
                         <p class="text-muted small mb-4 flex-grow-1">Audit sistem keamanan informasi, konsultasi migrasi
                             cloud, dan penyusunan master plan teknologi informasi.</p>
-                        <a href="#" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
+                        <a href="detail-layanan.php?id=3" class="btn btn-outline-primary w-100 mt-auto">Lihat Detail Layanan</a>
                     </div>
                 </div>
             </div>
