@@ -725,3 +725,86 @@ footer a:hover {
     color: #94a3b8 !important;
 }
 
+
+/* --- Nilai-Nilai Perusahaan Hover Animations --- */
+/* Target purely via CSS selectors without touching HTML */
+.row.mt-5 .col-md-3 .text-center {
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.row.mt-5 .col-md-3 .text-center:hover {
+    transform: translateY(-8px);
+}
+
+.row.mt-5 .col-md-3 .text-center .icon-box {
+    transition: all 0.3s ease-in-out;
+}
+
+.row.mt-5 .col-md-3 .text-center:hover .icon-box {
+    background-color: var(--color-accent) !important;
+    box-shadow: 0 8px 20px rgba(201, 162, 39, 0.4);
+}
+
+[data-theme="dark"] .row.mt-5 .col-md-3 .text-center:hover .icon-box {
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.row.mt-5 .col-md-3 .text-center .icon-box i {
+    transition: all 0.3s ease-in-out;
+}
+
+.row.mt-5 .col-md-3 .text-center:hover .icon-box i {
+    color: #ffffff !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+}
+
+.row.mt-5 .col-md-3 .text-center h4 {
+    transition: color 0.3s ease-in-out;
+}
+
+.row.mt-5 .col-md-3 .text-center:hover h4 {
+    color: var(--color-primary);
+}
+
+[data-theme="dark"] .row.mt-5 .col-md-3 .text-center:hover h4 {
+    color: var(--color-accent);
+}
+
+
+/* --- Login Button (Navbar) --- */
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-primary);
+    color: var(--color-primary);
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(10, 31, 68, 0.2);
+}
+
+[data-theme="dark"] .login-btn {
+    border-color: #e2e8f0;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .login-btn:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #111827;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+

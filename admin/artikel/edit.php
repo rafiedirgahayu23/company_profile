@@ -12,44 +12,47 @@ $artikel = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$artikel) {
-    header('Location: index.php');
-    exit;
+  header('Location: index.php');
+  exit;
 }
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $judul       = trim($_POST['judul'] ?? '');
-    $tanggal     = $_POST['tanggal'] ?? '';
-    $ringkasan   = trim($_POST['ringkasan'] ?? '');
-    $isi_artikel = trim($_POST['isi_artikel'] ?? '');
+  $judul = trim($_POST['judul'] ?? '');
+  $kategori = trim($_POST['kategori'] ?? '');
+  $penulis = trim($_POST['penulis'] ?? '');
+  $waktu_baca = trim($_POST['waktu_baca'] ?? '');
+  $tanggal = $_POST['tanggal'] ?? '';
+  $ringkasan = trim($_POST['ringkasan'] ?? '');
+  $konten = trim($_POST['konten'] ?? '');
 
-    if ($judul === '' || $tanggal === '' || $ringkasan === '' || $isi_artikel === '') {
-        $error = 'Semua field wajib diisi.';
+  if ($judul === '' || $tanggal === '' || $ringkasan === '' || $konten === '') {
+    $error = 'Semua field wajib diisi.';
+  } else {
+    $upload = uploadGambar($_FILES['gambar'] ?? null, 'artikel');
+
+    if (!$upload['sukses'] && $upload['pesan'] !== 'no_file') {
+      $error = $upload['pesan'];
     } else {
-        $upload = uploadGambar($_FILES['thumbnail'] ?? null, 'artikel');
+      $nama_gambar = $artikel['gambar'];
+      if ($upload['sukses']) {
+        hapusGambarLama($artikel['gambar']);
+        $nama_gambar = $upload['nama_file'];
+      }
 
-        if (!$upload['sukses'] && $upload['pesan'] !== 'no_file') {
-            $error = $upload['pesan'];
-        } else {
-            $nama_gambar = $artikel['thumbnail'];
-            if ($upload['sukses']) {
-                hapusGambarLama($artikel['thumbnail']);
-                $nama_gambar = $upload['nama_file'];
-            }
+      $stmt = $koneksi->prepare('UPDATE artikel SET judul = ?, kategori = ?, penulis = ?, waktu_baca = ?, gambar = ?, tanggal = ?, ringkasan = ?, konten = ? WHERE id_artikel = ?');
+      $stmt->bind_param('ssssssssi', $judul, $kategori, $penulis, $waktu_baca, $nama_gambar, $tanggal, $ringkasan, $konten, $id);
+      $stmt->execute();
+      $stmt->close();
 
-            $stmt = $koneksi->prepare('UPDATE artikel SET judul = ?, thumbnail = ?, tanggal = ?, ringkasan = ?, isi_artikel = ? WHERE id_artikel = ?');
-            $stmt->bind_param('sssssi', $judul, $nama_gambar, $tanggal, $ringkasan, $isi_artikel, $id);
-            $stmt->execute();
-            $stmt->close();
-
-            header('Location: index.php?sukses=Artikel berhasil diperbarui.');
-            exit;
-        }
+      header('Location: index.php?sukses=Artikel berhasil diperbarui.');
+      exit;
     }
+  }
 }
 
-$page_title  = 'Edit Artikel';
+$page_title = 'Edit Artikel';
 $active_menu = 'artikel';
 require_once __DIR__ . '/../includes/admin_header.php';
 ?>
@@ -65,37 +68,63 @@ require_once __DIR__ . '/../includes/admin_header.php';
     <div class="mb-3">
       <label class="form-label fw-medium">Judul Artikel</label>
       <input type="text" name="judul" class="form-control"
-             value="<?= htmlspecialchars($_POST['judul'] ?? $artikel['judul']) ?>" required>
+        value="<?= htmlspecialchars($_POST['judul'] ?? $artikel['judul']) ?>" required>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label class="form-label fw-medium">Kategori</label>
+        <input type="text" name="kategori" class="form-control"
+          value="<?= htmlspecialchars($_POST['kategori'] ?? $artikel['kategori']) ?>" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label fw-medium">Penulis</label>
+        <input type="text" name="penulis" class="form-control"
+          value="<?= htmlspecialchars($_POST['penulis'] ?? $artikel['penulis']) ?>" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label fw-medium">Waktu Baca</label>
+        <input type="text" name="waktu_baca" class="form-control"
+          value="<?= htmlspecialchars($_POST['waktu_baca'] ?? $artikel['waktu_baca']) ?>" required>
+      </div>
     </div>
 
     <div class="mb-3">
       <label class="form-label fw-medium">Tanggal</label>
       <input type="date" name="tanggal" class="form-control"
-             value="<?= htmlspecialchars($_POST['tanggal'] ?? $artikel['tanggal']) ?>" required>
+        value="<?= htmlspecialchars($_POST['tanggal'] ?? $artikel['tanggal']) ?>" required>
     </div>
 
     <div class="mb-3">
       <label class="form-label fw-medium">Ringkasan Singkat</label>
-      <textarea name="ringkasan" class="form-control" rows="2" maxlength="300" required><?= htmlspecialchars($_POST['ringkasan'] ?? $artikel['ringkasan']) ?></textarea>
+      <textarea name="ringkasan" class="form-control" rows="2" maxlength="300"
+        required><?= htmlspecialchars($_POST['ringkasan'] ?? $artikel['ringkasan']) ?></textarea>
     </div>
 
     <div class="mb-3">
-      <label class="form-label fw-medium">Isi Artikel Lengkap</label>
-      <textarea name="isi_artikel" class="form-control" rows="6" required><?= htmlspecialchars($_POST['isi_artikel'] ?? $artikel['isi_artikel']) ?></textarea>
+      <label class="form-label fw-medium">Isi Konten Lengkap</label>
+      <textarea name="konten" class="form-control" rows="6"
+        required><?= htmlspecialchars($_POST['konten'] ?? $artikel['konten']) ?></textarea>
     </div>
 
     <div class="mb-3">
-      <label class="form-label fw-medium">Thumbnail Saat Ini</label>
+      <label class="form-label fw-medium">Gambar Saat Ini</label>
       <div>
-        <img src="/company-profile/assets/img/<?= htmlspecialchars($artikel['thumbnail']) ?>"
-             style="width:100px;height:100px;object-fit:cover;border-radius:8px;"
-             onerror="this.src='https://via.placeholder.com/100?text=No+Img'">
+        <?php
+        $img_src = $artikel['gambar'];
+        if (!str_starts_with($img_src, 'http')) {
+          $img_src = '/company-profile/assets/img/' . $img_src;
+        }
+        ?>
+        <img src="<?= htmlspecialchars($img_src) ?>"
+          style="width:100px;height:100px;object-fit:cover;border-radius:8px;"
+          onerror="this.src='https://via.placeholder.com/100?text=No+Img'">
       </div>
     </div>
 
     <div class="mb-4">
-      <label class="form-label fw-medium">Ganti Thumbnail (opsional)</label>
-      <input type="file" name="thumbnail" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+      <label class="form-label fw-medium">Ganti Gambar (opsional)</label>
+      <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp">
     </div>
 
     <button type="submit" class="btn text-white" style="background:var(--color-primary);">

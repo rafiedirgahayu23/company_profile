@@ -1,4 +1,11 @@
-<?php include 'includes/header.php'; ?>
+<?php
+include 'includes/header.php';
+require 'config/koneksi.php';
+
+// Ambil 3 artikel terbaru dari database
+$query_artikel = mysqli_query($koneksi, "SELECT * FROM artikel ORDER BY tanggal DESC LIMIT 3");
+?>
+
 <!-- Hero Section -->
 <section class="hero-video-section">
     <video class="hero-video-bg" autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
@@ -21,6 +28,7 @@
         </div>
     </div>
 </section>
+
 <!-- Stats Section -->
 <section class="py-5 bg-soft">
     <div class="container">
@@ -46,13 +54,13 @@
         </div>
     </div>
 </section>
+
 <!-- About Section -->
 <section class="section-padding">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    alt="About Us" class="img-fluid rounded-4 shadow">
+                <img src="assets/img/tentangdsn.jpg" alt="Tentang DSN" class="img-fluid rounded-4 shadow">
             </div>
             <div class="col-lg-6 offset-lg-1" data-aos="fade-up">
                 <div class="section-title">
@@ -71,6 +79,7 @@
         </div>
     </div>
 </section>
+
 <!-- Services Overview -->
 <section class="section-padding bg-soft">
     <div class="container">
@@ -121,6 +130,7 @@
         </div>
     </div>
 </section>
+
 <!-- Recent Articles -->
 <section class="section-padding">
     <div class="container">
@@ -131,62 +141,55 @@
             </div>
             <a href="artikel.php" class="btn btn-outline-primary d-none d-md-inline-block">Lihat Blog Kami</a>
         </div>
+
         <div class="row">
-            <!-- Example Article Card 1 -->
-            <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-custom h-100 p-0 border-0 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                        alt="Cyber Security" class="card-img-top img-cover" style="height: 220px;">
-                    <div class="p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <span class="badge bg-primary-custom text-white me-2">Keamanan</span>
-                            <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i> 10 Sep 2026</small>
+            <?php if ($query_artikel && mysqli_num_rows($query_artikel) > 0): ?>
+                <?php
+                $delay = 100;
+                while ($art = mysqli_fetch_assoc($query_artikel)):
+                    // Format tanggal (contoh: 10 Sep 2026)
+                    $tanggal = date('d M Y', strtotime($art['tanggal']));
+                    ?>
+                    <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="<?= $delay; ?>">
+                        <div class="card-custom h-100 p-0 border-0 shadow-sm d-flex flex-column">
+                            <img src="assets/img/<?= htmlspecialchars($art['gambar'] ?? 'default-blog.jpg'); ?>"
+                                alt="<?= htmlspecialchars($art['judul']); ?>" class="card-img-top img-cover"
+                                style="height: 220px;"
+                                onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <div class="d-flex align-items-center mb-3">
+                                    <span
+                                        class="badge bg-primary-custom text-white me-2"><?= htmlspecialchars($art['kategori'] ?? 'Umum'); ?></span>
+                                    <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i>
+                                        <?= $tanggal; ?></small>
+                                </div>
+                                <h5 class="fw-bold mb-3">
+                                    <a href="detail-artikel.php?id=<?= $art['id_artikel']; ?>"
+                                        class="text-primary-custom text-decoration-none">
+                                        <?= htmlspecialchars($art['judul']); ?>
+                                    </a>
+                                </h5>
+                                <p class="text-muted small mb-0 flex-grow-1">
+                                    <?= htmlspecialchars(mb_strimwidth(strip_tags($art['ringkasan'] ?? $art['isi']), 0, 100, "...")); ?>
+                                </p>
+                            </div>
                         </div>
-                        <h5 class="fw-bold mb-3"><a href="#" class="text-primary-custom">Pentingnya Keamanan Cyber di
-                                Era Digital Saat Ini</a></h5>
-                        <p class="text-muted small mb-0">Memahami ancaman siber terbaru dan bagaimana perusahaan dapat
-                            melindungi data sensitif mereka.</p>
                     </div>
+                    <?php
+                    $delay += 100;
+                endwhile;
+                ?>
+            <?php else: ?>
+                <div class="col-12 text-center text-muted py-4">
+                    <p>Belum ada artikel yang diterbitkan.</p>
                 </div>
-            </div>
-            <!-- Example Article Card 2 -->
-            <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-custom h-100 p-0 border-0 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                        alt="Web Performance" class="card-img-top img-cover" style="height: 220px;">
-                    <div class="p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <span class="badge bg-primary-custom text-white me-2">Web Dev</span>
-                            <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i> 05 Sep 2026</small>
-                        </div>
-                        <h5 class="fw-bold mb-3"><a href="#" class="text-primary-custom">Optimasi Performa Website untuk
-                                Meningkatkan Konversi</a></h5>
-                        <p class="text-muted small mb-0">Kecepatan loading website adalah kunci. Pelajari teknik
-                            optimasi yang terbukti berhasil.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Example Article Card 3 -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-custom h-100 p-0 border-0 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                        alt="Cloud Computing" class="card-img-top img-cover" style="height: 220px;">
-                    <div class="p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <span class="badge bg-primary-custom text-white me-2">Cloud</span>
-                            <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i> 28 Aug 2026</small>
-                        </div>
-                        <h5 class="fw-bold mb-3"><a href="#" class="text-primary-custom">Mengenal Manfaat Cloud
-                                Computing bagi Bisnis UMKM</a></h5>
-                        <p class="text-muted small mb-0">Bagaimana teknologi cloud dapat menghemat biaya dan
-                            meningkatkan efisiensi operasional.</p>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
+
         <div class="text-center mt-4 d-md-none">
             <a href="artikel.php" class="btn btn-outline-primary">Lihat Blog Kami</a>
         </div>
     </div>
 </section>
+
 <?php include 'includes/footer.php'; ?>

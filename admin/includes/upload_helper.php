@@ -8,10 +8,11 @@
  * @param string $prefix      Prefix nama file, contoh: 'produk', 'artikel', 'galeri'
  * @return array ['sukses' => bool, 'nama_file' => string|null, 'pesan' => string]
  */
-function uploadGambar($file, $prefix = 'img') {
+function uploadGambar($file, $prefix = 'img')
+{
     $folder_tujuan = __DIR__ . '/../../assets/img/';
     $tipe_diizinkan = ['jpg', 'jpeg', 'png', 'webp'];
-    $maks_ukuran_mb = 2; // batas ukuran file 2MB
+    $maks_ukuran_mb = 9;
 
     // Tidak ada file dipilih (misal saat edit dan gambar tidak diganti)
     if (!isset($file) || $file['error'] === UPLOAD_ERR_NO_FILE) {
@@ -46,7 +47,8 @@ function uploadGambar($file, $prefix = 'img') {
  * Fungsi Helper: Hapus file gambar lama dari folder assets/img
  * Dipanggil saat data dihapus atau gambar diganti dengan yang baru.
  */
-function hapusGambarLama($nama_file) {
+function hapusGambarLama($nama_file)
+{
     $path = __DIR__ . '/../../assets/img/' . $nama_file;
     if ($nama_file && file_exists($path)) {
         unlink($path);

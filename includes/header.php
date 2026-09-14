@@ -81,6 +81,9 @@ function isActive($pageName)
                     </li>
                 </ul>
                 <div class="d-flex align-items-center mt-3 mt-lg-0">
+                    <a href="admin/login.php" class="login-btn me-3" aria-label="Login Admin">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </a>
                     <button id="theme-toggle" class="theme-toggle me-3" aria-label="Toggle Dark Mode">
                         <i id="theme-icon" class="fa-solid fa-moon"></i>
                     </button>
